@@ -20,9 +20,14 @@
 		<div class="card-body">
 			<div class="row">
 
-				<form method="post" enctype="application/x-www-form-urlencoded">
+				<form method="post" enctype="multipart/form-data">
 					<div class="form-group">
 						<input type="text" name="buyerId" value="${buyer.buyerId }" readonly>
+					</div>
+					<div>
+						<label class="form-label" for="buyerImage">제조사전경</label>
+						<input type="file" name="buyerImage" id="buyerImage" accept="image/*"/>
+						<span class="text-danger">${errors.buyerImage }</span>
 					</div>
 					<div class="form-group">
 						<label class="form-label" for="buyerName">거래처이름(*)</label>

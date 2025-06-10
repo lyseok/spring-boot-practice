@@ -49,6 +49,12 @@
 				</td>
 			</tr>
 			<tr>
+				<th>전경사진</th>
+				<td>
+					<img alt="" src="data:image/*;base64,${buyer.buyerImgBase64 }" style="height: 300px">
+				</td>
+			</tr>
+			<tr>
 				<th>기본주소</th>
 				<td>${buyer.buyerAdd1}</td>
 			</tr>

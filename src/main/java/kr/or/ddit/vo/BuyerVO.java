@@ -1,12 +1,16 @@
 package kr.or.ddit.vo;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import kr.or.ddit.validate.DeleteGroup;
 import kr.or.ddit.validate.UpdateGroup;
+import kr.or.ddit.validate.constraints.MimeTypeCheck;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -52,5 +56,17 @@ public class BuyerVO implements Serializable{
 //	@NotNull
 //	@NotEmpty
 	private transient List<ProdVO> prodList; // has Many
+	
+	// buyer 엔터티의 buyerImg컬럼 바인드
+	private byte[] buyerImg;
+
+	// 업로드 이미지 바인드용 
+	@MimeTypeCheck(mainType = "image")
+	private MultipartFile buyerImage;
+	
+	public String getBuyerImgBase64() {
+		if(buyerImg == null) return null;
+		return Base64.getEncoder().encodeToString(buyerImg);
+	}
 }
 

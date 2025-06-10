@@ -16,7 +16,12 @@
 		<div class="card-body">
 			<div class="row">
 				<c:url value="/buyer/buyerInsert.do" var="url" />
-				<form:form modelAttribute="buyer" action="${url }">
+				<form:form modelAttribute="buyer" action="${url }" enctype="multipart/form-data">
+					<div class="form-group">
+						<label class="form-label" for="buyerImage">제조사전경</label>
+						<input type="file" name="buyerImage" id="buyerImage" accept="image/*"/>
+						<form:errors path="buyerImage" cssClass="text-danger"/>
+					</div>
 					<div class="form-group">
 						<label class="form-label" for="buyerName">거래처이름(*)</label>
 						<form:input type="text" path="buyerName"
