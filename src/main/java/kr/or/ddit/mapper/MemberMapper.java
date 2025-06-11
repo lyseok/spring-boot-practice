@@ -17,4 +17,6 @@ public interface MemberMapper {
 	 * 			해당 회원이 존재하지 않는 경우, null을 반환 
 	 */
 	MemberVO selectMember(String username);
+	
+	int insertMember(MemberVO member);
 }

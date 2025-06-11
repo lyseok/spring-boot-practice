@@ -8,7 +8,6 @@
 </head>
 <body>
 	<h1>logical view name : index로 만든 웰컴 페이지</h1>
-	${pageContext.request.userPrincipal.realUser }
-	
+${principal }
 </body>
 </html>

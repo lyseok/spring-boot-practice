@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>kr.or.ddit</groupId>
-	<artifactId>boot-part4</artifactId>
+	<artifactId>WebStudy_Final</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>boot-part4</name>
+	<name>WebStudy_Final</name>
 	<description>템플릿 엔진 기반의 SSR(JSP) + SIteMesh</description>
 	<url/>
 	<licenses>
@@ -89,9 +89,9 @@
 		
 		<!-- logging 지원 -->		
 		<dependency>
-			<groupId>org.bgee.log4jdbc-log4j2</groupId>
-			<artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
-			<version>1.16</version>
+		    <groupId>com.github.gavlyukovskiy</groupId>
+		    <artifactId>p6spy-spring-boot-starter</artifactId>
+		    <version>1.11.0</version>
 		</dependency>
 		
 		<!-- JSP 지원 -->		
@@ -112,6 +112,10 @@
 			<artifactId>sitemesh</artifactId>
 			<version>3.2.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+		</dependency>
 		
 		<!-- REST api 지원 -->
 		<dependency>
@@ -125,9 +129,20 @@
 			<artifactId>spring-security-crypto</artifactId>
 		</dependency>
 		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
 	</dependencies>
 
 	<build>
+	<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

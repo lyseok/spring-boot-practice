@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="jakarta.tags.core" prefix="c"%>    
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>  
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>  
+   
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,19 +11,15 @@
 </head>
 <body>
 
-<%-- <c:if test="${not empty message }"> --%>
-<!-- 	<script> -->
-// 		alert('${message}');
-<!-- 	</script> -->
-<%-- 	<c:remove var="message" scope="session"/> --%>
-<%-- </c:if> --%>
 
-<form method="post">
+
+<form:form method="post">
+
 	<div class="card my-5">
 	  <div class="card-body">
 	    <div class="d-flex justify-content-between align-items-end mb-4">
 	      <h3 class="mb-0"><b>Login</b></h3>
-	      <a href="#" class="link-primary">Don't have an account?</a>
+	      <a href="/member/memberInsert.do" class="link-primary">Don't have an account?</a>
 	    </div>
 	    <div class="form-group mb-3">
 	      <label class="form-label">UserName</label>
@@ -69,7 +67,7 @@
 	    </div>
 	  </div>
 	</div>
-</form>
+</form:form>
 
 </body>
 </html>

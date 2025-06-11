@@ -56,13 +56,13 @@
           <i class="ti ti-news"></i>
         </li>
         <li class="pc-item">
-          <a href="${pageContext.request.contextPath }/login/loginForm.jsp" class="pc-link">
+          <a href="${pageContext.request.contextPath }/login" class="pc-link">
             <span class="pc-micon"><i class="ti ti-lock"></i></span>
             <span class="pc-mtext">Login</span>
           </a>
         </li>
         <li class="pc-item">
-          <a href="../pages/register.html" class="pc-link">
+          <a href="${pageContext.request.contextPath }/member/memberInsert.do" class="pc-link">
             <span class="pc-micon"><i class="ti ti-user-plus"></i></span>
             <span class="pc-mtext">Register</span>
           </a>

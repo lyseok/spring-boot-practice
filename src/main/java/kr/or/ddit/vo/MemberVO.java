@@ -1,7 +1,10 @@
 package kr.or.ddit.vo;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,14 +15,17 @@ import lombok.ToString;
 @EqualsAndHashCode(of = "memId")
 //@ToString
 public class MemberVO implements Serializable{
+	@NotBlank
 	private String memId;
+	@NotBlank
 	private String memPassword;
+	@NotBlank
 	private String memName;
 	@ToString.Exclude
 	private transient String memRegno1;
 	@ToString.Exclude
 	private transient String memRegno2;
-	private String memBir;
+	private LocalDateTime memBir;
 	private String memZip;
 	private String memAdd1;
 	private String memAdd2;
@@ -30,9 +36,9 @@ public class MemberVO implements Serializable{
 	private String memJob;
 	private String memHobby;
 	private String memMemorial;
-	private String memMemorialday;
+	private LocalDate memMemorialday;
 	private Integer memMileage;
-	private String memDelete;
+	private boolean memDelete;
 	
 	private String memRole;
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>	
 <!DOCTYPE html>
 <html lang="en">
 <!-- [Head] start -->
@@ -20,6 +21,12 @@
 
 
 <%@ include file="/WEB-INF/fragments/mantisPreStyle.jsp"%>
+<c:if test="${not empty message }">
+	<script>
+		alert('${message}');
+ 	</script> 
+	<c:remove var="message" scope="session"/>
+</c:if>
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -37,7 +44,7 @@
 		<div class="auth-wrapper v3">
 			<div class="auth-form">
 				<div class="auth-header">
-					<a href="#"><img src="/dist/assets/images/logo-dark.svg" alt="img"></a>
+					<a href="/"><img src="/dist/assets/images/logo-dark.svg" alt="img"></a>
 				</div>
 
 				<sitemesh:write property="body"/>

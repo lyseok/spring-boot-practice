@@ -26,4 +26,45 @@
 		FROM MEMBER
 		WHERE MEM_ID = #{asd}
 	</select>
+	
+	<insert id="insertMember">
+		INSERT INTO 
+		MEMBER(
+		    MEM_ID
+		    , MEM_PASSWORD
+		    , MEM_NAME
+		    , MEM_REGNO1
+		    , MEM_REGNO2
+		    , MEM_BIR
+		    , MEM_ZIP
+		    , MEM_ADD1
+		    , MEM_ADD2
+		    , MEM_HOMETEL
+		    , MEM_COMTEL
+		    , MEM_HP
+		    , MEM_MAIL
+		    , MEM_JOB
+		    , MEM_HOBBY
+		    , MEM_MEMORIAL
+		    , MEM_MEMORIALDAY
+		) VALUES (
+		    #{memId}
+		    , #{memPassword}
+		    , #{memName}
+		    , #{memRegno1}
+		    , #{memRegno2}
+		    , #{memBir}
+		    , #{memZip}
+		    , #{memAdd1}
+		    , #{memAdd2}
+		    , #{memHometel}
+		    , #{memComtel}
+		    , #{memHp}
+		    , #{memMail}
+		    , #{memJob}
+		    , #{memHobby}
+		    , #{memMemorial}
+		    , #{memMemorialday}
+		) 
+	</insert>
 </mapper>

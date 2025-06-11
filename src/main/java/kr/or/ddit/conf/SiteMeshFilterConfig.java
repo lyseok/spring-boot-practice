@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
-import kr.or.ddit.filter.DummyFilter;
-
 @Configuration
 public class SiteMeshFilterConfig {
 	
@@ -27,6 +25,7 @@ public class SiteMeshFilterConfig {
 						.addExcludedPath("/rest/**")
 						.addExcludedPath("**/*.html")
 						.addDecoratorPath("/login", "simpleDecorator.jsp")
+						.addDecoratorPath("/logout", "simpleDecorator.jsp")
 						.addDecoratorPath("/*", "mantisDecorator.jsp")
 				)
 		);
