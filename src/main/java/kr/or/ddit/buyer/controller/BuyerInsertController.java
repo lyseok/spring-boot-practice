@@ -1,5 +1,7 @@
 package kr.or.ddit.buyer.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -32,7 +34,7 @@ public class BuyerInsertController {
 	}
 	
 	@GetMapping
-	public String formUI() {	
+	public String formUI() {
 		return "buyer/buyerForm";
 	}
 	

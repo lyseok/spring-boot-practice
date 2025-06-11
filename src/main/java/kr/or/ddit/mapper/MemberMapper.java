@@ -1,10 +1,13 @@
 package kr.or.ddit.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import kr.or.ddit.vo.MemberVO;
 
 /**
  * 회원 관리를 위한 Persistent Layer
  */
+@Mapper
 public interface MemberMapper {
 	/**
 	 * 한사람의 회원 정보 조회

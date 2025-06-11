@@ -33,4 +33,6 @@ public class MemberVO implements Serializable{
 	private String memMemorialday;
 	private Integer memMileage;
 	private String memDelete;
+	
+	private String memRole;
 }

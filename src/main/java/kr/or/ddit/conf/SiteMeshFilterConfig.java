@@ -11,15 +11,6 @@ import kr.or.ddit.filter.DummyFilter;
 @Configuration
 public class SiteMeshFilterConfig {
 	
-	@Bean
-	FilterRegistrationBean<DummyFilter> dummyFilter() {
-		FilterRegistrationBean<DummyFilter> filter = new FilterRegistrationBean<DummyFilter>();
-		filter.setFilter(new DummyFilter());
-		filter.setOrder(Ordered.HIGHEST_PRECEDENCE+50);
-		filter.addUrlPatterns("/*");
-		return filter;
-	}
-	
 //	  <mapping path="/*" decorator="mantisDecorator.jsp"/>
 //	   	<!-- 비동기 요청 배제 -->  
 //	  <mapping path="/ajax/**" exclude="true" />
@@ -35,6 +26,7 @@ public class SiteMeshFilterConfig {
 						.addExcludedPath("/ajax/**")
 						.addExcludedPath("/rest/**")
 						.addExcludedPath("**/*.html")
+						.addDecoratorPath("/login", "simpleDecorator.jsp")
 						.addDecoratorPath("/*", "mantisDecorator.jsp")
 				)
 		);

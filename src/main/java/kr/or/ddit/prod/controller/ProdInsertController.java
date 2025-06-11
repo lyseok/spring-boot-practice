@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/prod/prodInsert.do")
-public class ProdInsertControllerServlet {
+public class ProdInsertController {
 	private final ProdService service;
 	private final ErrorsUtils errorsUtils;
 

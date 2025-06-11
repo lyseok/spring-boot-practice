@@ -68,7 +68,7 @@
             <a class="list-group-item list-group-item-action">
               <div class="d-flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+                  <img src="/dist/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
                 </div>
                 <div class="flex-grow-1 ms-1">
                   <span class="float-end text-muted">3:00 AM</span>
@@ -80,7 +80,7 @@
             <a class="list-group-item list-group-item-action">
               <div class="d-flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar">
+                  <img src="/dist/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar">
                 </div>
                 <div class="flex-grow-1 ms-1">
                   <span class="float-end text-muted">6:00 PM</span>
@@ -92,7 +92,7 @@
             <a class="list-group-item list-group-item-action">
               <div class="d-flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar">
+                  <img src="/dist/assets/images/user/avatar-3.jpg" alt="user-image" class="user-avtar">
                 </div>
                 <div class="flex-grow-1 ms-1">
                   <span class="float-end text-muted">2:45 PM</span>
@@ -104,7 +104,7 @@
             <a class="list-group-item list-group-item-action">
               <div class="d-flex">
                 <div class="flex-shrink-0">
-                  <img src="../assets/images/user/avatar-4.jpg" alt="user-image" class="user-avtar">
+                  <img src="/dist/assets/images/user/avatar-4.jpg" alt="user-image" class="user-avtar">
                 </div>
                 <div class="flex-grow-1 ms-1">
                   <span class="float-end text-muted">9:10 PM</span>
@@ -121,6 +121,14 @@
         </div>
       </div>
     </li>
+    <c:set value="${pageContext.request.userPrincipal }" var="principal"/>
+    <c:if test="${empty principal }">
+    <li class="pc-h-item">
+    	<a class="pc-head-link arrow-none m-0" href="/login"><span>Login<span></a>
+    </li>
+    </c:if>
+    <c:if test="${not empty principal }">
+    
     <li class="dropdown pc-h-item header-user-profile">
       <a
         class="pc-head-link dropdown-toggle arrow-none me-0"
@@ -131,18 +139,18 @@
         data-bs-auto-close="outside"
         aria-expanded="false"
       >
-        <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
-        <span>Stebin Ben</span>
+        <img src="/dist/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar">
+        <span>${principal.realUser.memName }</span>
       </a>
       <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
         <div class="dropdown-header">
           <div class="d-flex mb-1">
             <div class="flex-shrink-0">
-              <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
+              <img src="/dist/assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar wid-35">
             </div>
             <div class="flex-grow-1 ms-3">
-              <h6 class="mb-1">Stebin Ben</h6>
-              <span>UI/UX Designer</span>
+              <h6 class="mb-1">${principal.realUser.memName }</h6>
+              <span>${principal.realUser.memJob },${principal.realUser.memRole }</span>
             </div>
             <a href="#!" class="pc-head-link bg-transparent"><i class="ti ti-power text-danger"></i></a>
           </div>
@@ -181,7 +189,7 @@
               <i class="ti ti-edit-circle"></i>
               <span>Edit Profile</span>
             </a>
-            <a href="#!" class="dropdown-item">
+            <a href="/mypage" class="dropdown-item">
               <i class="ti ti-user"></i>
               <span>View Profile</span>
             </a>
@@ -193,7 +201,7 @@
               <i class="ti ti-wallet"></i>
               <span>Billing</span>
             </a>
-            <a href="#!" class="dropdown-item">
+            <a href="/logout" class="dropdown-item">
               <i class="ti ti-power"></i>
               <span>Logout</span>
             </a>
@@ -223,6 +231,7 @@
         </div>
       </div>
     </li>
+  </c:if>
   </ul>
 </div>
  </div>

@@ -3,9 +3,9 @@
 <nav class="pc-sidebar">
   <div class="navbar-wrapper">
     <div class="m-header">
-      <a href="${pageContext.request.contextPath }" class="b-brand text-primary">
+      <a href="${pageContext.request.contextPath }/" class="b-brand text-primary">
         <!-- ========   Change your logo from here   ============ -->
-        <img src="${pageContext.request.contextPath }/resources/dist/assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
+        <img src="/dist/assets/images/logo-dark.svg" class="img-fluid logo-lg" alt="logo">
       </a>
     </div>
     <div class="navbar-content">
