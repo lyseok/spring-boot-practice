@@ -45,7 +45,7 @@
 	    <div class="row">
 	      <div class="col-4">
 	        <div class="d-grid">
-	          <button type="button" class="btn mt-2 btn-light-primary bg-light text-muted">
+	          <a href="/oauth2/authorization/google-login" class="btn mt-2 btn-light-primary bg-light text-muted">
 	            <img src="/dist/assets/images/authentication/google.svg" alt="img"> <span class="d-none d-sm-inline-block"> Google</span>
 	          </button>
 	        </div>
