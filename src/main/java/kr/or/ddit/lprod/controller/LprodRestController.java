@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/lprod")
+@RequestMapping({"/rest/lprod", "/ajax/lprod"})
 public class LprodRestController{
 	private final LprodService service;
 	

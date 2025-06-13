@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const lprodGuSel = document.getElementById('lprodGu');
 	const initVal = lprodGuSel.dataset.initVal;
 	const getLprod = async () => {
-		const lprodList = await axios.get(`/rest/lprod`)
+		const lprodList = await axios.get(`/ajax/lprod`)
 			.then(res => res.data);
 			console.log("lprodList",lprodList);
 		if(lprodList){

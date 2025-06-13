@@ -93,4 +93,27 @@
 		    , #{memMemorialday}
 		) 
 	</insert>
+	
+	<update id="updateMemDelete">
+		UPDATE MEMBER SET 
+		MEM_DELETE = 'T'
+		WHERE MEM_ID = #{username}
+	</update>
+	
+	<update id="updateMember">
+      UPDATE member SET
+             mem_name = #{memName}
+             , mem_zip = #{memZip}
+             , mem_add1 = #{memAdd1}
+             , mem_add2 = #{memAdd2}
+             , mem_hometel = #{memHometel}
+             , mem_comtel = #{memComtel}
+             , mem_hp = #{memHp}
+             , mem_mail = #{memMail}
+             , mem_job = #{memJob}
+             , mem_hobby = #{memHobby}
+             , mem_memorial = #{memMemorial}
+             , mem_memorialday = #{memMemorialday}
+      WHERE mem_id = #{memId}
+   </update>
 </mapper>

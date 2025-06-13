@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const buyerIdInitVal = buyerIdSel.dataset.initVal;
 	
 	const getLprod = async () => {
-		const lprodList = await axios.get(`/rest/lprod`)
+		const lprodList = await axios.get(`/ajax/lprod`)
 			.then(res => res.data);
 		if(lprodList){
 			const data = lprodList.map(({lprodGu, lprodName}) => 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	
 	const getBuyer = async () => {
-		const buyerList = await axios.get(`/rest/buyer`)
+		const buyerList = await axios.get(`/ajax/buyer`)
 			.then(res => res.data);
 		if(buyerList){
 			const data = buyerList.map(({buyerId, buyerName, lprodGu}) => 

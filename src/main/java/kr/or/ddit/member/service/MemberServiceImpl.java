@@ -1,6 +1,10 @@
 package kr.or.ddit.member.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 	private final MemberMapper mapper;
-	@Autowired
 	private final PasswordEncoder pe;
+	private final AuthenticationManager authenticationManager;
 	
 	@Override
 	public MemberVO readMember(String username) {
@@ -30,6 +34,43 @@ public class MemberServiceImpl implements MemberService {
 		} else {
 			throw new PKDuplicatedException(member.getMemId());
 		}
+		
+	}
+
+	@Override
+	public void removeMember(String username, String password) {
+		UsernamePasswordAuthenticationToken inputData =
+				UsernamePasswordAuthenticationToken.unauthenticated(username, password);
+		authenticationManager.authenticate(inputData);
+		mapper.updateMemDelete(username);
+		
+	}
+
+	@Override
+	public void modifyMember(MemberVO member) {
+		UsernamePasswordAuthenticationToken inputData =
+				UsernamePasswordAuthenticationToken.unauthenticated(member.getMemId(), member.getMemPassword());
+		authenticationManager.authenticate(inputData);
+		mapper.updateMember(member);
+		
+		// 기존 인증객체 변경 
+		changeAuthentication(member);
+		
+	}
+
+	private void changeAuthentication(MemberVO member) {
+		UsernamePasswordAuthenticationToken inputData =
+				UsernamePasswordAuthenticationToken.unauthenticated(member.getMemId(), member.getMemPassword());
+		SecurityContext context = SecurityContextHolder.getContext();
+		UsernamePasswordAuthenticationToken before = 
+				(UsernamePasswordAuthenticationToken) context.getAuthentication();
+		Object Details = before.getDetails();
+		UsernamePasswordAuthenticationToken newAuthentication = 
+				(UsernamePasswordAuthenticationToken) authenticationManager.authenticate(inputData);
+		newAuthentication.setDetails(Details);
+		
+		context.setAuthentication(newAuthentication);
+		
 		
 	}
 

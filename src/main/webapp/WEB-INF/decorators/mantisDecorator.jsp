@@ -15,8 +15,12 @@
   <meta name="keywords" content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
   <meta name="author" content="CodedThemes">
 <%@include file="/WEB-INF/fragments/mantisPreStyle.jsp" %>
-
 <sitemesh:write property="head" />
+<c:if test="${not empty message }">
+	<script>
+		alert('${message}');
+ 	</script> 
+</c:if>
 
 </head>
 <!-- [Head] end -->

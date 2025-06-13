@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/buyer")
+@RequestMapping({"/rest/buyer", "/ajax/buyer"})
 public class BuyerRestController {
 	private final BuyerService service;
 	

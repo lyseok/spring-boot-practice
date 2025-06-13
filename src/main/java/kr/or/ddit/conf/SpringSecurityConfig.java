@@ -1,15 +1,15 @@
 package kr.or.ddit.conf;
 
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -18,22 +18,37 @@ import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientServ
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.util.AntPathMatcher;
 
 import jakarta.servlet.DispatcherType;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kr.or.ddit.mapper.MemberMapper;
 import kr.or.ddit.security.auth.CustomUserDetailService;
 import kr.or.ddit.security.oauth2.CustomOidcUserService;
 import kr.or.ddit.security.oauth2.OAuth2AuthenticationFailureHandler;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @Slf4j
+@Data
+@ConfigurationProperties(prefix = "myapp")
 @EnableWebSecurity
 public class SpringSecurityConfig {
+	private String loginUrl;
+	private String logoutUrl;
+	private String registerUrl;
+	
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+		return configuration.getAuthenticationManager();
+	}
+	
 	@Autowired
 	private MemberMapper mapper;
 	
@@ -63,7 +78,9 @@ public class SpringSecurityConfig {
 	 */
 	@Bean
 	public OAuth2AuthenticationFailureHandler failureHandler() {
-		return new OAuth2AuthenticationFailureHandler("/member/memberInsert.do");
+		OAuth2AuthenticationFailureHandler handler = new OAuth2AuthenticationFailureHandler(registerUrl);
+			handler.setDefaultFailureUrl(loginUrl + "?error");
+		return handler;
 	}
 	
 	@Autowired
@@ -95,7 +112,6 @@ public class SpringSecurityConfig {
 
 	private final String[] WHITE_LIST = new String[] {
 			"/"
-			, "/login"
 			, "/js/**"
 			, "/html/**"
 			, "/dist/**"
@@ -104,38 +120,15 @@ public class SpringSecurityConfig {
 			, "/swagger-ui.html"
 			, "/v3/api-docs/**"
 			, "/v3/api-docs.yaml"
-			, "/oauth2/**"
-			, "/member/memberInsert.do"	
+			, "/oauth2/**"	
 	};
 
-	@Bean
-	public CorsConfigurationSource corsConfiguration() {
-		CorsConfiguration corsConfig = new CorsConfiguration();
-		corsConfig.setAllowedOrigins(List.of("http://localhost:6060", "https://www.naver.com"));
-		corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD"));
-		corsConfig.setAllowedHeaders(List.of("*"));
-		corsConfig.setAllowCredentials(true);
-		
-		UrlBasedCorsConfigurationSource corsConfigurationSource =
-				new UrlBasedCorsConfigurationSource();
-		corsConfigurationSource.registerCorsConfiguration("/rest/**", corsConfig);
-		return corsConfigurationSource;
-	}
+	// 세션 동시성 제어를 위한 리스너
+//	@Bean
+//	public HttpSessionEventPublisher sessionEventPublisher() {
+//		return new HttpSessionEventPublisher();
+//	}
 	
-	@Bean
-	@Order(1)
-	public SecurityFilterChain restSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.securityMatcher("/rest/**")
-			.cors(cors -> 
-				cors.configurationSource(corsConfiguration())
-			)
-			.authorizeHttpRequests(authorize ->
-				authorize.anyRequest().authenticated()
-			)
-			.httpBasic(Customizer.withDefaults());
-		
-		return http.build();
-	}
 	
 	@Bean
 	@Order(2)
@@ -146,6 +139,8 @@ public class SpringSecurityConfig {
 				authroize
 					.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
 					.requestMatchers(WHITE_LIST).permitAll()
+					.requestMatchers(loginUrl).permitAll()
+					.requestMatchers(registerUrl).permitAll()
 					.requestMatchers(new AntPathRequestMatcher("/mypage")).authenticated()
 					.requestMatchers(new AntPathRequestMatcher("/prod/*Insert*")).hasRole("ADMIN")
 					.requestMatchers(new AntPathRequestMatcher("/prod/*Update*")).hasRole("ADMIN")
@@ -153,22 +148,54 @@ public class SpringSecurityConfig {
 					.anyRequest().authenticated()
 //					.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
 			)
+			.sessionManagement(session -> 
+				session
+					.sessionFixation(fixation -> fixation.newSession()) // 세션 속성이 유지되지 않음 
+					.maximumSessions(1) // 동시성 제어
+					.maxSessionsPreventsLogin(false)
+					.expiredUrl(loginUrl + "?expored")
+			)
 			.formLogin(login -> 
 				login
-					.loginPage("/login")
-					.loginProcessingUrl("/login")
+					.loginPage(loginUrl)
+					.loginProcessingUrl(loginUrl)
 					.defaultSuccessUrl("/", false)
 			)
 			.oauth2Login(oauth2 -> 
 	       		oauth2
-	       			.loginPage("/login")
+	       			.loginPage(loginUrl)
 	       			.failureHandler(failureHandler())
+			)
+			.requestCache(requestCache ->
+				requestCache
+					.requestCache(requestCache())
 			)
 			.logout(logout->
 				logout
-					.logoutUrl("/logout")
+					.logoutUrl(logoutUrl)
 
 			);
 		return http.build();
 	}
+	
+	@Bean
+	public AntPathMatcher antPathMatcher() {
+		return new AntPathMatcher();
+	}
+	
+	@Bean
+	public RequestCache requestCache() {
+		HttpSessionRequestCache cache = 
+				new HttpSessionRequestCache() {
+			@Override
+			public void saveRequest(HttpServletRequest request, HttpServletResponse response) {
+				if(!antPathMatcher().match("/.well-know/**", request.getRequestURI())) {
+					super.saveRequest(request, response);										
+				}
+			}
+		};
+		
+		return cache;
+	}
+	
 }

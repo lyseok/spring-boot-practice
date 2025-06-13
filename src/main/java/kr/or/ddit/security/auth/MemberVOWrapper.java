@@ -1,19 +1,24 @@
 package kr.or.ddit.security.auth;
 
-import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 
 import kr.or.ddit.vo.MemberVO;
 
-public class MemberVOWrapper implements UserDetails, RealUserWrapper<MemberVO>{
+public class MemberVOWrapper extends User implements RealUserWrapper<MemberVO>{
 
 	private final MemberVO realUser;
 	
 	public MemberVOWrapper(MemberVO realUser) {
-		super();
+		super( 
+			realUser.getMemId()
+			, realUser.getMemPassword()
+			, !realUser.isMemDelete()
+			, true
+			, true
+			, true
+			, AuthorityUtils.createAuthorityList(realUser.getMemRole())
+		);
 		this.realUser = realUser;
 	}
 
@@ -21,20 +26,4 @@ public class MemberVOWrapper implements UserDetails, RealUserWrapper<MemberVO>{
 	public MemberVO getRealUser() {
 		return realUser;
 	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.createAuthorityList(realUser.getMemRole());
-	}
-
-	@Override
-	public String getPassword() {
-		return realUser.getMemPassword();
-	}
-
-	@Override
-	public String getUsername() {
-		return realUser.getMemId();
-	}
-
 }

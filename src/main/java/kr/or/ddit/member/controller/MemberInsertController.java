@@ -1,7 +1,6 @@
 package kr.or.ddit.member.controller;
 
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/member/memberInsert.do")
+@RequestMapping("${myapp.register-url}")
 public class MemberInsertController {
 	private final MemberService service;
 	private final String MODEL_NAME = "member";
@@ -32,8 +31,12 @@ public class MemberInsertController {
 	) {
 		MemberVO member = new MemberVO();
 		if(lastException != null) {			
-			ClientRegistration unRegisteredUser = lastException.getClientRegistration();
-			member.setMemMail(lastException.getUnRegisteredUser().getEmail());
+			 OidcUser unRegisteredUser = lastException.getUnRegisteredUser();
+	         String oidcName =unRegisteredUser.getName();   // 프린시펄의 name, 즉 
+	         String mail = unRegisteredUser.getEmail();
+	         // 가입 시에 
+	         member.setMemMail(mail);
+	         member.setMemId(oidcName);
 		}
 		return member;
 	}

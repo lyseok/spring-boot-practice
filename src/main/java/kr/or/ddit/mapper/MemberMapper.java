@@ -28,4 +28,8 @@ public interface MemberMapper {
 	
 	public int insertMember(MemberVO member);
 	
+	public int updateMemDelete(String username);
+	
+	public int updateMember(MemberVO member);
+	
 }

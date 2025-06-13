@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,5 +29,31 @@
 		<tr><th>마일리지</th><td>${member.memMileage}</td></tr>
 		<tr><th>회원탈퇴</th><td>${member.memDelete}</td></tr>
 	</table>
+	<a href="member/memberUpdate.do" class="btn btn-primary">정보수정</a>
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+	  회원탈퇴
+	</button>
+	
+	<!-- Modal -->
+	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">회원탈퇴</h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	         <form action="/member/memberDelete.do" method="post">
+	         	<security:csrfInput/>
+	      <div class="modal-body">
+	         	password : <input type="password" name="password">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="submit" class="btn btn-primary">회원탈퇴</button>
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+	      </div>
+	         </form>
+	    </div>
+	  </div>
+	</div>
 </body>
 </html>
