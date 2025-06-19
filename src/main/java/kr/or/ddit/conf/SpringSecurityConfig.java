@@ -112,6 +112,8 @@ public class SpringSecurityConfig {
 
 	private final String[] WHITE_LIST = new String[] {
 			"/"
+			,"/ws/**"
+			, "meeting/**"
 			, "/js/**"
 			, "/html/**"
 			, "/dist/**"
